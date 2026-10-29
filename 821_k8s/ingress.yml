@@ -3,9 +3,9 @@ kind: Ingress
 metadata:
   name: ingress-service
   annotations:
-    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/use-regex: "true"   # จำเป็น เพราะ path ที่สองเป็น regex
 spec:
-  ingressClassName: nginx
+  ingressClassName: nginx   # ใช้แทน annotation kubernetes.io/ingress.class ที่ deprecated
   rules:
     - host: todo.com
       http:

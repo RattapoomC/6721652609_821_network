@@ -1,0 +1,25 @@
+# ===== 5.1 ติดตั้ง Ingress Controller =====
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.15.1/deploy/static/provider/cloud/deploy.yaml
+kubectl get pods -n ingress-nginx        # 1/1 Running
+kubectl get svc -n ingress-nginx         # EXTERNAL-IP = localhost
+
+# ===== 5.2 สร้าง ingress.yml แล้ว apply =====
+kubectl apply -f .
+kubectl get ingress
+
+# ===== 5.3 (ทางเลือก) เปลี่ยน client/server เป็น ClusterIP =====
+# ลบบรรทัด nodePort ออกด้วย ถ้า error ให้ลบ svc เดิมก่อน
+kubectl delete svc server-service client-service
+kubectl apply -f .
+
+# ===== 5.4 hosts =====
+# macOS:   echo "127.0.0.1 todo.com" | sudo tee -a /etc/hosts
+# Windows: Add-Content -Path C:\Windows\System32\drivers\etc\hosts -Value "`n127.0.0.1 todo.com"
+ping todo.com                             # ต้องตอบจาก 127.0.0.1
+
+# ===== 5.5 ทดสอบ =====
+# http://todo.com/            -> หน้าเว็บ Todo
+# http://todo.com/api/todo    -> JSON
+
+# ===== ล้างแลบ =====
+kubectl delete -f .
